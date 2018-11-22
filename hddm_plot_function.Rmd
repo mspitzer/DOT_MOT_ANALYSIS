@@ -18,25 +18,25 @@ plot_size = 24
 
 # Main Effects:
 # 1. Switch Costs
-DT_Switch_Cost = data.table(SC = c("Switch Cost","Switch Cost"), Experiment = c("Experiment 1", "Experiment 2"), fit = c(-0.414, -0.316), lower = c(-0.487, -0.387), upper = c(-0.340, -0.245)) 
-DT_Switch_Cost_Threshold = data.table(SC = c("Switch Cost","Switch Cost"), Experiment = c("Experiment 1", "Experiment 2"), fit = c(0.063, 0.1168), lower = c(0.029, 0.083), upper = c(0.096, 0.150)) 
+DT_Switch_Cost = data.table(SC = c("Switch Cost","Switch Cost"), Experiment = c("Exp1", "Exp2"), fit = c(-0.414, -0.316), lower = c(-0.487, -0.387), upper = c(-0.340, -0.245)) 
+DT_Switch_Cost_Threshold = data.table(SC = c("Switch Cost","Switch Cost"), Experiment = c("Exp1", "Exp2"), fit = c(0.063, 0.1168), lower = c(0.029, 0.083), upper = c(0.096, 0.150)) 
 
 # 2. Task
 DT_Task_drift = data.table(SC = c("task","task"), Experiment = c("Exp1", "Exp2"), fit = c(0.342, 0.0037), lower = c(0.22386096, -0.11592849), upper = c(0.46148086, 0.1180223)) # p value < 0.001 Exp2 p = 0.4734
 DT_Task_threshold = data.table(SC = c("task","task"), Experiment = c("Exp1", "Exp2"), fit = c(-0.026711213372, 0.138670287342), lower = c(-0.07894858, 0.08645048), upper = c(0.02462728, 0.19032629)) # 
 
 # 3.Congruency
-DT_congruency = data.table(SC = c("congruency","congruency"), Experiment = c("Exp1", "Exp2"), fit = c(-0.480141688309, -0.374055233136), lower = c(-0.40468217, -0.3134809), upper = c(-0.55646391, -0.43782279)) # p value < 0.001 Exp2 p = 0.4734
-DT_congruency_threshold = data.table(SC = c("congruency","congruency"), Experiment = c("Exp1", "Exp2"), fit = c(-0.101363625202, -0.0979685862689), lower = c(-0.0728155, -0.06767293), upper = c(-0.1318213,-0.13013283)) # p value < 0.001 & p value < 0.001
+DT_congruency = data.table(SC = c("incongruency","incongruency"), Experiment = c("Exp1", "Exp2"), fit = c(-0.480141688309, -0.374055233136), lower = c(-0.40468217, -0.3134809), upper = c(-0.55646391, -0.43782279)) # p value < 0.001 Exp2 p = 0.4734
+DT_congruency_threshold = data.table(SC = c("incongruency","incongruency"), Experiment = c("Exp1", "Exp2"), fit = c(-0.101363625202, -0.0979685862689), lower = c(-0.0728155, -0.06767293), upper = c(-0.1318213,-0.13013283)) # p value < 0.001 & p value < 0.001
 
 # Interactions:
 # 1. Asymmetric Switch Costs
-DT_SC_Task = data.table(SC = c("",""), Experiment = c("Experiment 1: p < 0.001", "Experiment 2: p = 0.627"), fit = c(-0.281, 0.02166), lower = c(-0.423, -0.12), upper = c(-0.132, 0.1538)) 
-DT_SC_Task_Threshold = data.table(SC = c("",""), Experiment = c("Experiment 1", "Experiment 2"), fit = c(-0.0267, 0.138670287342), lower = c(-0.0789, 0.08645048), upper = c(0.0246, 0.19032629)) 
+DT_SC_Task = data.table(SC = c("ASC","ASC"), Experiment = c("Exp1", "Exp2"), fit = c(-0.281, 0.02166), lower = c(-0.423, -0.12), upper = c(-0.132, 0.1538)) 
+DT_SC_Task_Threshold = data.table(SC = c("ASC","ASC"), Experiment = c("Exp1", "Exp2"), fit = c(-0.0267, 0.138670287342), lower = c(-0.0789, 0.08645048), upper = c(0.0246, 0.19032629)) 
 
 # 2. Switch Costs : Response Congruency
-DT_Switch_Cost_Congruency = data.table(SC = c("",""), Experiment = c("Experiment 1: p < 0.001", "Experiment 2: p < 0.001"), fit = c(-0.272, -0.2023), lower = -c(0.154, 0.0939), upper = -c(0.390, 0.332))  
-DT_Switch_Cost_Congruency_Threshold = data.table(SC = c("",""), Experiment = c("Experiment 1: p = 0.003", "Experiment 2: p = 0.031"), fit = c(-0.0668, -0.0526), lower = -c(0.014, -0.00306337), upper = -c(0.118, 0.11610236))  
+DT_Switch_Cost_Congruency = data.table(SC = c("SCRC","SCRC"), Experiment = c("Exp1", "Exp2"), fit = c(-0.272, -0.2023), lower = -c(0.154, 0.0939), upper = -c(0.390, 0.332))  
+DT_Switch_Cost_Congruency_Threshold = data.table(SC = c("SCRC","SCRC"), Experiment = c("Exp1", "Exp2"), fit = c(-0.0668, -0.0526), lower = -c(0.014, -0.00306337), upper = -c(0.118, 0.11610236))  
 ```
 
 
@@ -56,6 +56,86 @@ P = ggplot(data_table) + aes(data_table =  SC, y = fit, fill=Experiment) + geom_
    theme(axis.ticks=element_blank(),axis.title.x=element_blank(), axis.text.y = element_text(size=plot_size,color="black"), text = element_text(size = plot_size), axis.text.x =  element_text(color = "black", size = plot_size), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank()) + theme(legend.title = element_blank())  +  theme(legend.position="none")+
    theme(axis.line.x = element_line(color="black", size = 0.5),
          axis.line.y = element_line(color="black", size = 0.5)) +geom_hline(yintercept = 0)
+
+return(P)
+}
+```
+
+```{r}
+
+my_hddm_plot_legend = function(data_table, drift_or_threshold){#plot_size, dodge_width, errorbar_size)
+
+P = ggplot(data_table) + aes(data_table =  SC, y = fit, fill=Experiment) + geom_col(aes(SC),color = "black", position=position_dodge(width = 0.5), width = 0.5) +
+  scale_fill_manual(values=c('white','lightgray')) + 
+  geom_errorbar(data = data_table, aes(SC, ymin = lower, ymax = upper) , width=.2, size = 0.9, position=position_dodge(width = 0.5))+
+  xlab("Switch Cost") + 
+   ylab(drift_or_threshold) +
+   ggtitle("") + 
+   theme(plot.title = element_text(lineheight=3, face="bold", color="black", size=plot_size))+
+   theme(axis.ticks=element_blank(),axis.title.x=element_blank(), axis.text.y = element_text(size=plot_size,color="black"), text = element_text(size = plot_size), axis.text.x =  element_text(color = "black", size = plot_size), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank()) + theme(legend.title = element_blank())  +  theme(legend.position="none")+
+   theme(axis.line.x = element_line(color="black", size = 0.5),
+         axis.line.y = element_line(color="black", size = 0.5)) +geom_hline(yintercept = 0)+
+   theme(legend.position = c(0.8, 0.08), legend.title = element_blank())
+
+return(P)
+}
+```
+
+```{r}
+
+my_hddm_plot_task_legend = function(data_table, drift_or_threshold, XLAB){#plot_size, dodge_width, errorbar_size)
+
+P = ggplot(data_table) + aes(data_table =  SC, y = fit, fill=Experiment) + geom_col(aes(SC),color = "black", position=position_dodge(width = 0.5), width = 0.5) +
+  scale_fill_manual(values=c('red','lightblue')) + 
+  geom_errorbar(data = data_table, aes(SC, ymin = lower, ymax = upper) , width=.2, size = 0.9, position=position_dodge(width = 0.5))+
+  xlab("Switch Cost") + 
+   ylab(drift_or_threshold) +
+   ggtitle("") + 
+   theme(plot.title = element_text(lineheight=3, face="bold", color="black", size=plot_size))+
+   theme(axis.ticks=element_blank(),axis.title.x=element_blank(), axis.text.y = element_text(size=plot_size,color="black"), text = element_text(size = plot_size), axis.text.x =  element_text(color = "black", size = plot_size), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank()) + theme(legend.title = element_blank())  +  theme(legend.position="none")+
+   theme(axis.line.x = element_line(color="black", size = 0.5),
+         axis.line.y = element_line(color="black", size = 0.5)) +geom_hline(yintercept = 0)+
+   theme(legend.position = c(0.8, 0.8), legend.title = element_blank())
+
+return(P)
+}
+```
+
+```{r}
+
+my_hddm_plot_task_legend2 = function(data_table, drift_or_threshold, XLAB){#plot_size, dodge_width, errorbar_size)
+
+P = ggplot(data_table) + aes(data_table =  SC, y = fit, fill=Experiment) + geom_col(aes(SC),color = "black", position=position_dodge(width = 0.5), width = 0.5) +
+  scale_fill_manual(values=c('red','lightblue')) + 
+  geom_errorbar(data = data_table, aes(SC, ymin = lower, ymax = upper) , width=.2, size = 0.9, position=position_dodge(width = 0.5))+
+  xlab("Switch Cost") + 
+   ylab(drift_or_threshold) +
+   ggtitle("") + 
+   theme(plot.title = element_text(lineheight=3, face="bold", color="black", size=plot_size))+
+   theme(axis.ticks=element_blank(),axis.title.x=element_blank(), axis.text.y = element_text(size=plot_size,color="black"), text = element_text(size = plot_size), axis.text.x =  element_text(color = "black", size = plot_size), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank()) + theme(legend.title = element_blank())  +  theme(legend.position="none")+
+   theme(axis.line.x = element_line(color="black", size = 0.5),
+         axis.line.y = element_line(color="black", size = 0.5)) +geom_hline(yintercept = 0)+
+   theme(legend.position = c(0.8, 0.08), legend.title = element_blank())
+
+return(P)
+}
+```
+
+```{r}
+
+my_hddm_plot_task = function(data_table, drift_or_threshold){#plot_size, dodge_width, errorbar_size)
+
+P = ggplot(data_table) + aes(data_table =  SC, y = fit, fill=Experiment) + geom_col(aes(SC),color = "black", position=position_dodge(width = 0.5), width = 0.5) +
+  scale_fill_manual(values=c('red','lightblue')) + 
+  geom_errorbar(data = data_table, aes(SC, ymin = lower, ymax = upper) , width=.2, size = 0.9, position=position_dodge(width = 0.5))+
+  xlab("Switch Cost") + 
+   ylab(drift_or_threshold) +
+   ggtitle("") + 
+   theme(plot.title = element_text(lineheight=3, face="bold", color="black", size=plot_size))+
+   theme(axis.ticks=element_blank(),axis.title.x=element_blank(), axis.text.y = element_text(size=plot_size,color="black"), text = element_text(size = plot_size), axis.text.x =  element_text(color = "black", size = plot_size), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank()) + theme(legend.title = element_blank())  +  theme(legend.position="none")+
+   theme(axis.line.x = element_line(color="black", size = 0.5),
+         axis.line.y = element_line(color="black", size = 0.5)) +geom_hline(yintercept = 0)
+
 return(P)
 }
 ```
@@ -63,7 +143,7 @@ return(P)
 Now we create the plots we want.
 First, main Effect for Switch Costs for (1) drift rate and (2) threshold
 ```{r}
-SC_drift = my_hddm_plot(DT_Switch_Cost, "drift rate")
+SC_drift = my_hddm_plot_legend(DT_Switch_Cost, "drift rate")
 SC_threshold = my_hddm_plot(DT_Switch_Cost_Threshold, "threshold")
 # put both plots on the same grid
 grid.arrange(SC_drift, SC_threshold, nrow = 1, ncol = 2)
@@ -72,27 +152,31 @@ grid.arrange(SC_drift, SC_threshold, nrow = 1, ncol = 2)
 Second, main Effect for Task for (1) drift rate and (2) threshold
 
 ```{r}
-Task_drift = my_hddm_plot(DT_Task_drift, "drift rate")
-Task_threshold = my_hddm_plot(DT_Task_threshold, "threshold")
+Task_drift = my_hddm_plot_task_legend(DT_Task_drift, "drift rate")
+Task_threshold = my_hddm_plot_task(DT_Task_threshold, "threshold")
 # put both plots on the same grid
 grid.arrange(Task_drift, Task_threshold, nrow = 1, ncol = 2)
+```
+
+```{r}
+grid.arrange(SC_drift, SC_threshold,Task_drift, Task_threshold, nrow = 2, ncol = 2)
 ```
 
 Third, main Effect for Congruency for (1) drift rate and (2) threshold
 
 ```{r}
-Congruency_drift = my_hddm_plot(DT_congruency, "drift rate")
-Congruency_threshold = my_hddm_plot(DT_congruency_threshold, "threshold")
+#Congruency_drift = my_hddm_plot(DT_congruency, "drift rate")
+#Congruency_threshold = my_hddm_plot(DT_congruency_threshold, "threshold")
 # put both plots on the same grid
-grid.arrange(Congruency_drift, Congruency_threshold, nrow = 1, ncol = 2)
+#grid.arrange(Congruency_drift, Congruency_threshold, nrow = 1, ncol = 2)
 ```
 
 Now the 2 interactions:
 First, asymmetric switch costs for (1) drift rate and (2) threshold
 
 ```{r}
-SC_Task = my_hddm_plot(DT_SC_Task, "drift rate")
-SC_Task_Threshold = my_hddm_plot(DT_SC_Task_Threshold, "threshold")
+SC_Task = my_hddm_plot_task_legend2(DT_SC_Task, "drift rate")
+SC_Task_Threshold = my_hddm_plot_task(DT_SC_Task_Threshold, "threshold")
 # put both plots on the same grid
 grid.arrange(SC_Task, SC_Task_Threshold, nrow = 1, ncol = 2)
 ```
@@ -100,8 +184,15 @@ grid.arrange(SC_Task, SC_Task_Threshold, nrow = 1, ncol = 2)
 Second, switch costs & response congruence for (1) drift rate and (2) threshold
 
 ```{r}
-Switch_Cost_Congruency = my_hddm_plot(DT_Switch_Cost_Congruency, "drift rate")
+Switch_Cost_Congruency = my_hddm_plot_legend(DT_Switch_Cost_Congruency, "drift rate")
 Switch_Cost_Congruency_Threshold = my_hddm_plot(DT_Switch_Cost_Congruency_Threshold, "threshold")
 # put both plots on the same grid
 grid.arrange(Switch_Cost_Congruency, Switch_Cost_Congruency_Threshold, nrow = 1, ncol = 2)
+```
+
+
+```{r}
+
+grid.arrange(SC_Task, SC_Task_Threshold,Switch_Cost_Congruency, Switch_Cost_Congruency_Threshold, nrow = 2, ncol = 2)
+
 ```
