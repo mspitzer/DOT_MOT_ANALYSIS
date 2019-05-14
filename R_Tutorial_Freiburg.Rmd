@@ -1,0 +1,79 @@
+
+---
+title: "R Tutorial Freiburg "
+output:
+  pdf_document: default
+  html_notebook: default
+  word_document: default
+---
+R notebook to analyse Voluntary Task Switching Data.
+
+First, load libraries (if not loaded before do install.packages("") e.g. install.packages("data.table"))
+```{r}
+library(data.table)
+library(lme4)
+library(effects)
+library(ggplot2)
+
+```
+
+Now, we lead the csv file from the path where it is (you have to change the path to your path).
+Each row is one trial.
+subject_id discribes the id of teh subject.
+rt is reachtion time of the trial
+correct: 1 is correct 0 is innncorrect
+taskTransition: 1 is switch trials 0 is repeat trials
+last_trial_correct: 0 is incorrect 1 is correct
+yoked_error: 1 ERROR AFTER CORRECT TRIAL
+pre_yoked_error: 1 one trial before yoked_error
+pre_pre_yoked_error: 2 trials before yoked_error
+post_yoked_error: trial after yoked_error
+
+difficulty_increase: TRUE means that the task ws getting harder on this trial
+
+```{r}
+d <- fread('~/Desktop/Freiburg/jupyter/VTS_4.csv', na.strings="NaN")
+d
+
+```
+
+now let's only include rt's longer than 200ms
+```{r}
+d1 = subset(d,  rt > 200)
+hist(d1$rt, breaks = 50)
+```
+now we make things into factors
+
+```{r}
+d1[,taskTransition:=as.factor(taskTransition)]
+levels(d1$taskTransition) <- c( "repeat","switch")
+contrasts(d1$taskTransition) <- c(-0.5, 0.5)
+
+d1
+```
+
+We want to find out if subjects have longer RTs when they switch between tasks, compared to when they repeat the tasks.
+
+```{r}
+model = lmer(rt ~ taskTransition + (1|subject_id), d1)
+summary(model)
+```
+
+Extract the effect from the model.
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+e <- effect("taskTransition", model)
+e2 <- as.data.frame(e) 
+e2
+```
+Plot the effects.
+```{r}
+ggplot(e2, aes(x =  taskTransition, y = fit)) +
+    geom_col(aes(taskTransition),color = "black") + 
+    geom_errorbar(aes(taskTransition, ymin= c(e2[1,4], e2[2,4]), ymax=c(e2[1,5], e2[2,5])), width=.2, size = 0.9, position=position_dodge(width = 0.5))
+
+
+
+
+```
+
+
